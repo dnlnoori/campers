@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101426">
+<meta name="description" content="چادرها؛ یک بازی فکری و منطقی فارسی با ۱۰۰ مرحله، راهنمای هوشمند و چالش روزانه.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="چادرها">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>چادرها | بازی فکری کیهانی</title>
+<style>
+:root{
+  --forest:#173d30;--forest-2:#24533f;--mint:#dcebd7;--mint-2:#eef5e9;
+  --cream:#f7f6ef;--paper:#fffefa;--ink:#1d3028;--muted:#748279;
+  --gold:#e6ad53;--gold-soft:#fff1d4;--line:#e8ebe2;--danger:#c65b4b;
+  --shadow:0 18px 50px rgba(24,53,40,.10);--radius:24px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif}
+body{background:radial-gradient(circle at 8% 0%,rgba(220,235,215,.7),transparent 30%),radial-gradient(circle at 95% 15%,rgba(255,241,212,.55),transparent 24%),var(--cream)}
+button{font:inherit;cursor:pointer;border:0}
+button:focus-visible{outline:3px solid rgba(230,173,83,.75);outline-offset:3px}
+.app-shell{max-width:1040px;margin:0 auto;padding:18px 18px 34px;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:46px;height:46px;border-radius:16px;background:var(--forest);color:white;display:grid;place-items:center;font-size:24px;box-shadow:0 8px 18px rgba(23,61,48,.2)}
+.brand-copy strong{display:block;font-size:19px;letter-spacing:-.4px;color:var(--forest)}
+.brand-copy span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.top-pills{display:flex;gap:8px;align-items:center}
+.stat-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.78);border:1px solid rgba(232,235,226,.9);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;color:var(--forest);box-shadow:0 4px 12px rgba(24,53,40,.04)}
+.screen{animation:screenIn .28s ease both}
+@keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pop{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center;background:linear-gradient(125deg,#173d30 0%,#24533f 70%,#2c6249 100%);border-radius:30px;padding:32px;color:#fff;box-shadow:0 22px 55px rgba(23,61,48,.18);min-height:300px}
+.hero:before{content:"";position:absolute;width:360px;height:360px;border:1px solid rgba(255,255,255,.10);border-radius:50%;left:-115px;top:-160px}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid rgba(255,255,255,.09);border-radius:50%;right:38%;bottom:-190px}
+.hero-copy{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);padding:7px 11px;border-radius:999px;font-size:11px;color:#e4f1df}
+.hero h1{font-size:clamp(28px,5vw,43px);line-height:1.35;margin:16px 0 9px;letter-spacing:-1px}
+.hero h1 span{color:#e6c47e}
+.hero p{color:rgba(255,255,255,.76);line-height:1.95;font-size:14px;max-width:450px;margin:0 0 20px}
+.hero-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{border-radius:14px;padding:12px 17px;font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:transform .16s,box-shadow .16s,background .16s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:#e6c47e;color:#263b2d;box-shadow:0 8px 18px rgba(0,0,0,.13)}
+.btn-primary:hover{background:#f0d394;transform:translateY(-1px)}
+.btn-light{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:white}
+.btn-light:hover{background:rgba(255,255,255,.19)}
+.btn-green{background:var(--forest);color:#fff;box-shadow:0 8px 18px rgba(23,61,48,.16)}
+.btn-green:hover{background:#24533f}
+.btn-soft{background:var(--mint-2);color:var(--forest)}
+.btn-plain{background:transparent;color:var(--muted);padding:9px 12px}
+.btn-danger{background:#fff0ed;color:var(--danger)}
+.btn-small{padding:9px 12px;font-size:12px;border-radius:12px}
+.hero-art{position:relative;z-index:1;min-height:220px;display:grid;place-items:center}
+.art-orbit{width:220px;height:220px;border-radius:50%;border:1px dashed rgba(255,255,255,.3);display:grid;place-items:center;position:relative;animation:floaty 5s ease-in-out infinite}
+.art-board{width:156px;height:156px;background:#f7f2df;border-radius:22px;padding:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;transform:rotate(-7deg);box-shadow:0 18px 35px rgba(0,0,0,.25)}
+.art-cell{border-radius:7px;background:#e6e4d3;display:grid;place-items:center;font-size:23px}
+.art-cell.dark{background:#cbdcc5}
+.art-spark{position:absolute;font-size:24px}
+.art-spark.one{top:13px;right:18px}.art-spark.two{bottom:20px;left:2px;font-size:18px}
+.home-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:15px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:0 8px 25px rgba(24,53,40,.045)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.panel-title{font-size:14px;font-weight:900;color:var(--forest)}
+.panel-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.streak-panel{display:flex;align-items:center;gap:15px;background:linear-gradient(110deg,#fff8e9,#fffefa)}
+.streak-flame{width:60px;height:60px;border-radius:19px;background:var(--gold-soft);display:grid;place-items:center;font-size:30px}
+.streak-number{font-size:27px;font-weight:950;color:var(--forest);line-height:1}
+.streak-days{display:flex;gap:5px;margin-top:12px}
+.day-dot{width:18px;height:18px;border-radius:7px;background:#edf0e9;border:1px solid #e4e9df}
+.day-dot.active{background:#d6e8ce;border-color:#b9d5ae}
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.quick-action{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px 8px;text-align:center;color:var(--forest);font-size:11px;font-weight:800;transition:transform .16s,border-color .16s}
+.quick-action:hover{transform:translateY(-2px);border-color:#c5d9bd}
+.quick-icon{display:block;font-size:21px;margin-bottom:6px}
+.progress-track{height:8px;background:#edf0e9;border-radius:999px;overflow:hidden;margin:10px 0 7px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#6b9d71,#b3ca78);border-radius:999px;transition:width .35s}
+.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.section-title{font-size:19px;color:var(--forest);font-weight:950;margin:4px 0 5px}
+.section-desc{font-size:12px;color:var(--muted);margin:0 0 18px;line-height:1.8}
+.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.page-head h2{margin:0;font-size:22px;color:var(--forest)}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:12px}
+.chapter-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.chapter-name{font-size:14px;font-weight:900;color:var(--forest)}
+.chapter-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.level-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.level-tile{position:relative;min-height:57px;border-radius:14px;border:1px solid #e7ebe2;background:#f9faf6;color:var(--forest);font-weight:900;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .15s,border .15s}
+.level-tile:hover:not(:disabled){transform:translateY(-2px);border-color:#b8d2ad}
+.level-tile.done{background:#edf5e9;border-color:#d3e4cc}
+.level-tile.current{background:var(--forest);color:white;border-color:var(--forest);box-shadow:0 6px 14px rgba(23,61,48,.16)}
+.level-tile:disabled{opacity:.43;cursor:not-allowed;background:#f1f1eb}
+.tile-stars{font-size:9px;letter-spacing:1px;color:#d69a3b;line-height:1.2}
+.tile-lock{font-size:12px;opacity:.65}
+.game-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.game-title{display:flex;align-items:center;gap:10px}
+.icon-button{width:40px;height:40px;border-radius:13px;background:#fff;border:1px solid var(--line);color:var(--forest);font-size:18px;display:grid;place-items:center}
+.game-title h2{font-size:17px;color:var(--forest);margin:0}
+.game-title p{font-size:11px;color:var(--muted);margin:3px 0 0}
+.difficulty{font-size:10px;padding:6px 9px;border-radius:999px;background:#edf5e9;color:#47734e;font-weight:900}
+.game-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.game-stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:9px 11px;display:flex;align-items:center;justify-content:center;gap:7px}
+.game-stat .stat-icon{font-size:16px}
+.game-stat strong{font-size:12px;color:var(--forest)}
+.game-stat span{font-size:10px;color:var(--muted)}
+.board-card{background:var(--paper);border:1px solid var(--line);border-radius:23px;padding:15px 10px 13px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center}
+.board-instruction{font-size:11px;color:var(--muted);margin:0 0 12px;text-align:center}
+.board-frame{width:min(100%,570px);direction:ltr}
+.top-clues{display:grid;grid-template-columns:34px repeat(var(--n),minmax(0,1fr));gap:5px;margin-bottom:5px}
+.board-body{display:grid;grid-template-columns:34px minmax(0,1fr);gap:5px}
+.row-clues{display:grid;grid-template-rows:repeat(var(--n),minmax(0,1fr));gap:5px}
+.col-clue,.row-clue{border-radius:7px;background:#f0f3eb;color:#66766a;display:flex;align-items:center;justify-content:center;min-height:0;font-size:11px;font-weight:900;transition:background .15s,color .15s}
+.col-clue.done,.row-clue.done{background:#e1efdc;color:#386944}
+.col-clue.over,.row-clue.over{background:#ffe9e4;color:#b34e40}
+.col-clue.focus,.row-clue.focus{outline:2px solid #e6ad53;background:#fff2d9}
+.puzzle-grid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:5px}
+.cell{aspect-ratio:1/1;min-width:0;border-radius:8px;background:#f0f1e9;border:1px solid #e4e8dd;display:grid;place-items:center;padding:0;color:var(--forest);font-size:clamp(15px,4vw,25px);position:relative;transition:transform .12s,background .12s,border-color .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+.cell:active{transform:scale(.92)}
+.cell.empty:hover{background:#e9f0e4;border-color:#c7d8be}
+.cell.tree{background:#dcebd7;border-color:#c5dcc0;cursor:default}
+.cell.tent{background:#fff0d4;border-color:#efcf91;box-shadow:inset 0 0 0 1px rgba(230,173,83,.12)}
+.cell.grass{background:#e8f0e5;color:#91a78e;font-size:18px}
+.cell.conflict{background:#ffe7e2!important;border-color:#d77a6b!important;box-shadow:0 0 0 2px rgba(198,91,75,.12)}
+.cell.hint{outline:3px solid #e6ad53;outline-offset:1px;z-index:1;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,173,83,.15)}50%{box-shadow:0 0 0 5px rgba(230,173,83,.18)}}
+.cell .mini-mark{position:absolute;bottom:2px;right:3px;font-size:7px;color:#9eaa9d}
+.board-legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:10px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-icon{font-size:15px}
+.game-controls{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:13px}
+.control-btn{border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 5px;color:var(--forest);font-size:11px;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:58px}
+.control-btn .control-icon{font-size:18px}
+.control-btn.primary{background:var(--forest);color:white;border-color:var(--forest)}
+.control-btn:disabled{opacity:.35;cursor:not-allowed}
+.game-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px;color:var(--muted);font-size:10px}
+.message-strip{margin-top:10px;padding:10px 12px;background:#f1f5ed;border-radius:13px;color:#5b705e;font-size:11px;line-height:1.7;min-height:38px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(16,34,26,.48);z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(5px);animation:screenIn .18s ease}
+.modal{width:min(100%,430px);background:var(--paper);border-radius:26px;padding:24px;box-shadow:0 25px 80px rgba(0,0,0,.22);text-align:center;animation:pop .25s ease}
+.modal-icon{width:64px;height:64px;border-radius:22px;background:var(--mint-2);display:grid;place-items:center;font-size:30px;margin:0 auto 13px}
+.modal h3{font-size:20px;color:var(--forest);margin:0 0 7px}
+.modal p{font-size:12px;line-height:1.9;color:var(--muted);margin:0 0 17px}
+.modal-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.star-row{font-size:27px;letter-spacing:5px;color:#e2a846;margin:9px 0 14px}
+.intro-wrap{min-height:calc(100vh - 120px);display:grid;place-items:center}
+.intro-card{width:min(100%,600px);background:linear-gradient(145deg,#173d30,#285942);color:white;border-radius:30px;padding:30px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.intro-card:before{content:"";position:absolute;width:260px;height:260px;border:1px solid rgba(255,255,255,.12);border-radius:50%;top:-160px;right:-60px}
+.intro-logo{width:76px;height:76px;border-radius:25px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:40px;margin:0 auto 14px;animation:floaty 4s ease-in-out infinite}
+.intro-card h1{font-size:30px;margin:0 0 8px}
+.intro-card>p{color:rgba(255,255,255,.76);font-size:13px;line-height:2;margin:0 auto 20px;max-width:440px}
+.intro-step{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:19px;padding:17px;margin:17px auto;max-width:430px}
+.intro-step .big{font-size:35px;margin-bottom:8px}
+.intro-step h3{font-size:15px;margin:0 0 5px}
+.intro-step p{font-size:11px;line-height:1.9;color:rgba(255,255,255,.72);margin:0}
+.intro-dots{display:flex;justify-content:center;gap:7px;margin:15px}
+.intro-dot{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.28)}
+.intro-dot.active{width:22px;background:#e6c47e}
+.achievement-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.achievement{background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;display:flex;align-items:center;gap:10px}
+.achievement.locked{opacity:.48;filter:grayscale(.7)}
+.achievement-icon{width:42px;height:42px;border-radius:14px;background:#fff3d9;display:grid;place-items:center;font-size:21px;flex:none}
+.achievement strong{font-size:12px;color:var(--forest);display:block}
+.achievement small{font-size:10px;color:var(--muted);display:block;margin-top:3px;line-height:1.5}
+.settings-list{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid var(--line);gap:12px}
+.setting-row:last-child{border-bottom:0}
+.setting-row strong{font-size:12px;color:var(--forest)}
+.setting-row small{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.toggle{width:43px;height:25px;border-radius:99px;background:#dfe5dc;padding:3px;transition:background .2s;flex:none}
+.toggle:after{content:"";display:block;width:19px;height:19px;background:white;border-radius:50%;transition:transform .2s;box-shadow:0 2px 4px #0002}
+.toggle.on{background:#6d9b70}
+.toggle.on:after{transform:translateX(-18px)}
+.rules-list{display:grid;gap:10px}
+.rule{display:flex;align-items:flex-start;gap:11px;padding:13px;background:#fff;border:1px solid var(--line);border-radius:15px}
+.rule-icon{font-size:20px;flex:none}
+.rule strong{font-size:12px;color:var(--forest);display:block;margin-bottom:3px}
+.rule span{font-size:11px;color:var(--muted);line-height:1.8}
+.footer-note{text-align:center;color:#9aa59b;font-size:10px;margin-top:22px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:#183d30;color:#fff;padding:11px 16px;border-radius:13px;font-size:12px;box-shadow:0 12px 30px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:all .22s;z-index:80;max-width:calc(100% - 30px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:700px){
+ .app-shell{padding:13px 12px 28px}
+ .hero{grid-template-columns:1fr;padding:24px 21px;min-height:0}
+ .hero-art{min-height:160px;order:-1}
+ .art-orbit{width:165px;height:165px}
+ .art-board{width:122px;height:122px;padding:8px;gap:4px}
+ .art-cell{font-size:18px}
+ .hero h1{font-size:30px;margin-top:12px}
+ .home-grid{grid-template-columns:1fr}
+ .quick-actions{grid-template-columns:repeat(3,1fr)}
+ .game-controls{gap:5px}
+ .control-btn{font-size:10px;padding:9px 2px}
+ .board-card{padding:12px 7px}
+ .top-clues{grid-template-columns:28px repeat(var(--n),minmax(0,1fr));gap:3px}
+ .board-body{grid-template-columns:28px minmax(0,1fr);gap:3px}
+ .puzzle-grid,.row-clues{gap:3px}
+ .cell{border-radius:6px}
+ .col-clue,.row-clue{font-size:10px;border-radius:5px}
+ .game-stats{gap:5px}
+ .game-stat{padding:8px 4px;gap:4px}
+ .game-stat strong{font-size:11px}
+ .game-stat span{font-size:9px}
+ .level-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+ .level-tile{min-height:52px}
+ .achievement-grid{grid-template-columns:1fr}
+}
+@media(max-width:390px){
+ .brand-copy span{display:none}
+ .stat-pill{padding:7px 9px}
+ .hero{padding:21px 17px}
+ .game-title h2{font-size:15px}
+ .difficulty{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* ===== MADAR-inspired cosmic visual system ===== */
+:root{
+  color-scheme:dark;
+  --forest:#ffc857;
+  --forest-2:#b8b5ff;
+  --mint:#29304d;
+  --mint-2:#242943;
+  --cream:#101426;
+  --paper:rgba(25,29,50,.88);
+  --ink:#f5f4fa;
+  --muted:#aaa9c3;
+  --gold:#ffc857;
+  --gold-soft:#44374a;
+  --line:rgba(184,181,255,.15);
+  --danger:#ff9f68;
+  --shadow:0 22px 65px rgba(0,0,0,.34);
+  --radius:25px;
+}
+html,body{background:#101426;color:var(--ink);font-family:Vazirmatn,"Noto Sans Arabic",Tahoma,Arial,sans-serif}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 12% 4%,rgba(112,91,174,.20),transparent 34%),
+    radial-gradient(ellipse at 90% 16%,rgba(74,91,157,.18),transparent 30%),
+    radial-gradient(ellipse at 50% 100%,rgba(54,43,91,.25),transparent 44%),
+    #101426;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:
+    radial-gradient(1px 1px at 7% 18%,rgba(255,255,255,.85) 50%,transparent 100%),
+    radial-gradient(1px 1px at 23% 73%,rgba(184,181,255,.8) 50%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 38% 31%,rgba(255,200,87,.75) 50%,transparent 100%),
+    radial-gradient(1px 1px at 54% 83%,rgba(255,255,255,.75) 50%,transparent 100%),
+    radial-gradient(1px 1px at 68% 12%,rgba(184,181,255,.8) 50%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 84% 57%,rgba(255,200,87,.65) 50%,transparent 100%),
+    radial-gradient(1px 1px at 94% 27%,rgba(255,255,255,.8) 50%,transparent 100%);
+  background-size:100% 100%;
+}
+body:after{
+  content:"";position:fixed;width:440px;height:440px;right:-220px;top:24%;z-index:0;pointer-events:none;
+  border-radius:50%;background:rgba(137,116,225,.08);filter:blur(85px);
+}
+.app-shell{position:relative;z-index:1;max-width:960px;padding:20px 20px 36px;min-height:100vh}
+.topbar{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:12px 14px;margin-bottom:22px;border:1px solid rgba(184,181,255,.12);
+  border-radius:22px;background:rgba(25,29,50,.58);backdrop-filter:blur(18px);
+  box-shadow:0 12px 36px rgba(0,0,0,.16)
+}
+.brand{gap:12px}
+.brand-mark{
+  width:48px;height:48px;border-radius:17px;color:#17182b;font-size:25px;
+  background:linear-gradient(145deg,#ffd979,#ff9f68);box-shadow:0 8px 26px rgba(255,200,87,.2),inset 0 1px 0 rgba(255,255,255,.55)
+}
+.brand-copy strong{color:#f5f4fa;font-size:20px;letter-spacing:-.5px}
+.brand-copy span{color:#aaa9c3}
+.top-pills{gap:7px}
+.stat-pill{color:#f5f4fa;background:rgba(34,38,65,.8);border:1px solid rgba(184,181,255,.14);box-shadow:none;padding:8px 12px}
+.install-app{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 12px;
+  border-radius:999px;border:1px solid rgba(255,200,87,.42);color:#ffd778;
+  background:rgba(255,200,87,.09);font:inherit;font-size:11px;font-weight:800;white-space:nowrap;transition:.2s ease
+}
+.install-app:hover{background:rgba(255,200,87,.16);box-shadow:0 0 22px rgba(255,200,87,.12)}
+.install-app:active{transform:scale(.97)}
+.screen{animation:screenIn .32s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cosmicIn{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes starPulse{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes goldShine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.hero{
+  background:radial-gradient(circle at 78% 24%,rgba(184,181,255,.16),transparent 27%),
+    linear-gradient(125deg,#211b3d 0%,#191d32 56%,#2a2448 100%);
+  border:1px solid rgba(184,181,255,.18);border-radius:30px;padding:34px;
+  box-shadow:0 24px 70px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.05);min-height:310px
+}
+.hero:before{border-color:rgba(184,181,255,.17);box-shadow:0 0 55px rgba(184,181,255,.05)}
+.hero:after{border-color:rgba(255,200,87,.16)}
+.eyebrow{border-color:rgba(255,200,87,.24);background:rgba(255,200,87,.08);color:#ffdc8c;letter-spacing:.1px}
+.hero h1{color:#f5f4fa}
+.hero h1 span{color:#ffc857;text-shadow:0 0 28px rgba(255,200,87,.16)}
+.hero p{color:#c1bfd5}
+.btn{border-radius:15px;letter-spacing:0;min-height:42px}
+.btn-primary{
+  color:#211b30;background:linear-gradient(110deg,#ffd978 0%,#ffc857 48%,#ffab72 100%);
+  background-size:200% 100%;box-shadow:0 9px 26px rgba(255,183,83,.18),inset 0 1px 0 rgba(255,255,255,.55)
+}
+.btn-primary:hover{background-position:100% 50%;background-color:#ffd978;box-shadow:0 12px 30px rgba(255,183,83,.25)}
+.btn-light{background:rgba(184,181,255,.09);border:1px solid rgba(184,181,255,.24);color:#f5f4fa}
+.btn-light:hover{background:rgba(184,181,255,.15)}
+.btn-green{background:linear-gradient(110deg,#ffd978,#ffc857 55%,#ffad73);color:#211b30;border:1px solid rgba(255,220,145,.4);box-shadow:0 8px 24px rgba(255,183,83,.17)}
+.btn-green:hover{background:linear-gradient(110deg,#ffe39b,#ffd16c 55%,#ffb987);box-shadow:0 12px 28px rgba(255,183,83,.22)}
+.btn-soft{background:rgba(184,181,255,.10);border:1px solid rgba(184,181,255,.2);color:#d5d2ff}
+.btn-plain{color:#aaa9c3}
+.btn-danger{background:rgba(255,159,104,.12);border:1px solid rgba(255,159,104,.22);color:#ffb18a}
+.art-orbit{border:1px dashed rgba(184,181,255,.38);box-shadow:0 0 55px rgba(184,181,255,.06)}
+.art-board{background:#292b45;box-shadow:0 18px 45px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.16)}
+.art-cell{background:#353852;color:#f5f4fa}.art-cell.dark{background:#454365}
+.art-spark{color:#ffd36d;text-shadow:0 0 18px rgba(255,200,87,.5)}
+.panel,.chapter,.board-card{
+  background:linear-gradient(145deg,rgba(31,35,59,.92),rgba(25,29,50,.92));
+  border:1px solid rgba(184,181,255,.14);box-shadow:0 15px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.035)
+}
+.panel{border-radius:23px}
+.panel-title,.section-title{color:#f5f4fa}
+.panel-sub,.section-desc{color:#aaa9c3}
+.streak-panel{background:linear-gradient(115deg,rgba(69,53,64,.82),rgba(31,35,59,.94))}
+.streak-flame{background:linear-gradient(145deg,rgba(255,200,87,.2),rgba(255,159,104,.12));border:1px solid rgba(255,200,87,.2)}
+.streak-number{color:#ffd36d}
+.day-dot{background:#292d49;border:1px solid rgba(184,181,255,.12)}
+.day-dot.active{background:linear-gradient(145deg,#ffc857,#ff9f68);border-color:rgba(255,220,145,.65);box-shadow:0 0 12px rgba(255,200,87,.15)}
+.quick-action{background:rgba(34,38,65,.75);border:1px solid rgba(184,181,255,.15);color:#e9e7ff}
+.quick-action:hover{border-color:rgba(255,200,87,.42);box-shadow:0 8px 25px rgba(0,0,0,.16)}
+.progress-track{background:#30344f}
+.progress-fill{background:linear-gradient(90deg,#9d97f6,#ffc857,#ff9f68);box-shadow:0 0 15px rgba(255,200,87,.22)}
+.progress-meta{color:#aaa9c3}
+.page-head h2{color:#f5f4fa}
+.chapter{border-radius:21px}
+.chapter-name{color:#f5f4fa}.chapter-meta{color:#aaa9c3}
+.difficulty{background:rgba(184,181,255,.12);color:#d3d0ff;border:1px solid rgba(184,181,255,.17)}
+.level-tile{background:rgba(34,38,65,.78);border:1px solid rgba(184,181,255,.14);color:#f5f4fa}
+.level-tile:hover:not(:disabled){border-color:rgba(255,200,87,.5);box-shadow:0 7px 20px rgba(0,0,0,.16)}
+.level-tile.done{background:rgba(255,200,87,.12);border-color:rgba(255,200,87,.25);color:#ffe09a}
+.level-tile.current{background:linear-gradient(145deg,#ffc857,#ff9f68);color:#211b30;border-color:#ffd978;box-shadow:0 7px 22px rgba(255,200,87,.2)}
+.level-tile:disabled{background:rgba(20,23,41,.65);opacity:.45;color:#8b8aa5}
+.tile-stars{color:#ffc857}.tile-lock{color:#a7a4c5}
+.icon-button{background:rgba(34,38,65,.85);border:1px solid rgba(184,181,255,.17);color:#e5e2ff;box-shadow:0 5px 16px rgba(0,0,0,.12)}
+.icon-button:hover{border-color:rgba(255,200,87,.38);color:#ffd36d}
+.game-title h2{color:#f5f4fa}.game-title p{color:#aaa9c3}
+.game-stat{background:rgba(34,38,65,.8);border:1px solid rgba(184,181,255,.13);border-radius:16px}
+.game-stat strong{color:#f5f4fa}.game-stat span{color:#aaa9c3}
+.game-stat .stat-icon{filter:saturate(.8)}
+.board-card{border-radius:25px;padding:17px 12px 14px;box-shadow:0 20px 55px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04)}
+.board-instruction{color:#b6b4ce}
+.board-frame{filter:drop-shadow(0 9px 20px rgba(0,0,0,.12))}
+.col-clue,.row-clue{background:#292e4b;color:#b8b6d0;border:1px solid rgba(184,181,255,.08)}
+.col-clue.done,.row-clue.done{background:rgba(255,200,87,.16);color:#ffda83;border-color:rgba(255,200,87,.23)}
+.col-clue.over,.row-clue.over{background:rgba(255,159,104,.17);color:#ffad86;border-color:rgba(255,159,104,.3)}
+.col-clue.focus,.row-clue.focus{outline:2px solid #ffc857;background:rgba(255,200,87,.18);color:#ffe29b}
+.puzzle-grid{gap:5px}
+.cell{background:#292e49;border:1px solid rgba(184,181,255,.13);color:#f5f4fa;border-radius:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.cell.empty:hover{background:#343957;border-color:rgba(184,181,255,.35)}
+.cell.tree{background:linear-gradient(145deg,#3d4664,#2d3c55);border-color:rgba(184,181,255,.26);color:#c9c5ff;box-shadow:inset 0 0 0 1px rgba(184,181,255,.06)}
+.cell.tent{background:linear-gradient(145deg,#59483f,#40374b);border-color:rgba(255,200,87,.48);color:#ffda83;box-shadow:inset 0 0 0 1px rgba(255,200,87,.12),0 0 13px rgba(255,200,87,.07)}
+.cell.grass{background:#252a44;color:#8586a8}
+.cell.conflict{background:rgba(255,100,100,.19)!important;border-color:#ff9f8b!important;box-shadow:0 0 0 2px rgba(255,159,104,.15)}
+.cell.hint{outline:3px solid #ffc857;outline-offset:1px;box-shadow:0 0 18px rgba(255,200,87,.18);z-index:1}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,200,87,.12)}50%{box-shadow:0 0 0 5px rgba(255,200,87,.2)}}
+.board-legend{color:#aaa9c3}.legend-icon{filter:drop-shadow(0 2px 5px rgba(0,0,0,.2))}
+.control-btn{background:rgba(34,38,65,.8);border:1px solid rgba(184,181,255,.15);color:#e8e6ff;border-radius:15px;transition:transform .16s,border-color .16s,background .16s;}
+.control-btn:hover:not(:disabled){border-color:rgba(255,200,87,.38);background:rgba(48,51,81,.92);transform:translateY(-2px)}
+.control-btn.primary{background:linear-gradient(110deg,#ffd978,#ffc857 58%,#ffab72);color:#211b30;border-color:rgba(255,220,145,.4);box-shadow:0 8px 22px rgba(255,183,83,.16)}
+.control-btn:disabled{background:rgba(25,29,50,.5);color:#73738e;opacity:.6}
+.game-footer{color:#aaa9c3}
+.message-strip{background:rgba(184,181,255,.09);border:1px solid rgba(184,181,255,.12);color:#c8c6e0;border-radius:14px}
+.modal-backdrop{background:rgba(7,9,21,.76);backdrop-filter:blur(14px)}
+.modal{background:linear-gradient(145deg,#252943,#191d32);border:1px solid rgba(184,181,255,.18);box-shadow:0 28px 90px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);border-radius:28px}
+.modal-icon{background:linear-gradient(145deg,rgba(255,200,87,.18),rgba(184,181,255,.13));border:1px solid rgba(255,200,87,.18)}
+.modal h3{color:#f5f4fa}.modal p{color:#b3b1ca}
+.star-row{color:#ffc857;text-shadow:0 0 20px rgba(255,200,87,.18)}
+.intro-wrap{min-height:calc(100vh - 150px)}
+.intro-card{background:radial-gradient(circle at 50% 0%,rgba(184,181,255,.18),transparent 38%),linear-gradient(145deg,#211b3d,#191d32 64%,#292344);border:1px solid rgba(184,181,255,.2);box-shadow:0 28px 80px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.05);border-radius:32px}
+.intro-card:before{border-color:rgba(255,200,87,.17);box-shadow:0 0 45px rgba(184,181,255,.06)}
+.intro-logo{background:linear-gradient(145deg,rgba(255,200,87,.2),rgba(184,181,255,.13));border:1px solid rgba(255,200,87,.25);box-shadow:0 0 36px rgba(255,200,87,.09)}
+.intro-card h1{color:#f5f4fa}.intro-card>p{color:#c3c0d8}
+.intro-step{background:rgba(184,181,255,.08);border:1px solid rgba(184,181,255,.17)}
+.intro-step h3{color:#f5f4fa}.intro-step p{color:#b9b7d0}
+.intro-dot{background:rgba(184,181,255,.3)}.intro-dot.active{background:#ffc857;box-shadow:0 0 12px rgba(255,200,87,.35)}
+.achievement{background:rgba(34,38,65,.8);border:1px solid rgba(184,181,255,.14);border-radius:18px}
+.achievement-icon{background:linear-gradient(145deg,rgba(255,200,87,.16),rgba(184,181,255,.1));border:1px solid rgba(255,200,87,.13)}
+.achievement strong{color:#f5f4fa}.achievement small{color:#aaa9c3}
+.settings-list{background:rgba(25,29,50,.86);border:1px solid rgba(184,181,255,.14);border-radius:21px}
+.setting-row{border-bottom:1px solid rgba(184,181,255,.11)}
+.setting-row strong{color:#f5f4fa}.setting-row small{color:#aaa9c3}
+.toggle{background:#454762}.toggle.on{background:linear-gradient(90deg,#9d97f6,#ffc857)}
+.rules-list{gap:11px}
+.rule{background:rgba(34,38,65,.8);border:1px solid rgba(184,181,255,.14);border-radius:17px}
+.rule strong{color:#f5f4fa}.rule span{color:#aaa9c3}
+.footer-note{color:#777894}
+.toast{background:linear-gradient(110deg,#292344,#191d32);border:1px solid rgba(255,200,87,.25);color:#f5f4fa;box-shadow:0 14px 35px rgba(0,0,0,.4)}
+/* Keep the board readable and all controls comfortably tappable. */
+button{-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid rgba(255,200,87,.8);outline-offset:3px}
+@media(max-width:700px){
+ .app-shell{padding:11px 11px calc(25px + env(safe-area-inset-bottom))}
+ .topbar{padding:9px 10px;margin-bottom:16px;border-radius:19px}
+ .brand-mark{width:43px;height:43px;border-radius:15px}
+ .stat-pill{padding:7px 9px;font-size:11px}
+ .install-app{padding:8px 9px;font-size:10px}
+ .hero{padding:23px 19px;border-radius:25px}
+ .hero-art{min-height:155px}
+ .panel{padding:16px}
+ .board-card{padding:13px 7px}
+ .cell{border-radius:7px}
+ .control-btn{min-height:60px}
+}
+@media(max-width:390px){
+ .brand-copy strong{font-size:17px}
+ .top-pills{gap:5px}
+ .stat-pill{padding:7px 8px}
+ .install-app{font-size:0;gap:0;width:36px;height:36px;padding:0}
+ .install-app .install-label{display:none}
+ .install-app .install-glyph{font-size:16px}
+ .hero{padding:20px 16px}
+}
+@media(prefers-reduced-motion:reduce){body:before{animation:none!important}}
+
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🌲</div>
+      <div class="brand-copy"><strong>چادرها</strong><span>یک ماجراجویی کوچک برای ذهن بزرگ</span></div>
+    </div>
+    <div class="top-pills">
+      <div class="stat-pill" title="استریک روزانه">🔥 <span id="topStreak">۰</span></div>
+      <div class="stat-pill" title="ستاره‌های کسب‌شده">⭐ <span id="topStars">۰</span></div>
+      <button id="installApp" class="install-app" type="button" aria-label="نصب وب‌اپ"><span class="install-glyph">↓</span><span class="install-label">نصب وب‌اپ</span></button>
+    </div>
+  </header>
+  <main id="screen" class="screen"></main>
+  <div class="footer-note">چادرها · بازی فکری و منطقی · نسخه کیهانی ۱.۱</div>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<div id="modalRoot"></div>
+<script>
+(()=>{
+"use strict";
+let LEVELS=[{"n":4,"trees":[3,13],"rows":[0,1,1,0],"cols":[0,1,0,1],"solution":[7,9]},{"n":4,"trees":[5,11],"rows":[0,2,0,0],"cols":[1,0,0,1],"solution":[4,7]},{"n":4,"trees":[2,5],"rows":[1,0,1,0],"cols":[0,1,0,1],"solution":[3,9]},{"n":4,"trees":[2,4,15],"rows":[1,0,2,0],"cols":[1,0,0,2],"solution":[3,8,11]},{"n":4,"trees":[0,8,14],"rows":[1,0,1,1],"cols":[0,2,0,1],"solution":[1,9,15]},{"n":4,"trees":[4,7,8],"rows":[1,0,1,1],"cols":[2,0,0,1],"solution":[0,11,12]},{"n":5,"trees":[8,15,17],"rows":[0,1,0,0,2],"cols":[1,0,1,0,1],"solution":[9,20,22]},{"n":5,"trees":[0,13,20],"rows":[0,1,1,1,0],"cols":[2,0,0,0,1],"solution":[5,14,15]},{"n":5,"trees":[6,16,24],"rows":[0,1,0,0,2],"cols":[0,1,1,1,0],"solution":[7,21,23]},{"n":5,"trees":[2,11,19],"rows":[1,0,0,1,1],"cols":[0,1,0,1,1],"solution":[3,16,24]},{"n":5,"trees":[1,18,20],"rows":[1,0,0,0,2],"cols":[1,1,0,1,0],"solution":[0,21,23]},{"n":5,"trees":[0,1,17],"rows":[1,1,0,1,0],"cols":[1,0,1,1,0],"solution":[2,5,18]},{"n":5,"trees":[2,10,18],"rows":[1,0,1,1,0],"cols":[0,2,0,0,1],"solution":[1,11,19]},{"n":5,"trees":[11,14,22],"rows":[0,0,1,2,0],"cols":[1,0,1,0,1],"solution":[10,17,19]},{"n":5,"trees":[9,11,22],"rows":[0,1,1,0,1],"cols":[0,2,0,0,1],"solution":[6,14,21]},{"n":5,"trees":[6,9,20],"rows":[0,1,1,1,0],"cols":[1,0,1,0,1],"solution":[7,14,15]},{"n":5,"trees":[11,20,23],"rows":[0,0,1,1,1],"cols":[1,0,2,0,0],"solution":[12,15,22]},{"n":5,"trees":[4,12,17,20],"rows":[1,0,1,1,1],"cols":[1,0,1,2,0],"solution":[3,13,15,22]},{"n":5,"trees":[3,11,17],"rows":[1,1,0,0,1],"cols":[0,1,1,0,1],"solution":[4,6,22]},{"n":5,"trees":[2,19,21],"rows":[1,0,0,0,2],"cols":[0,1,1,0,1],"solution":[1,22,24]},{"n":5,"trees":[2,9,15,24],"rows":[1,1,0,0,2],"cols":[1,0,1,1,1],"solution":[4,7,20,23]},{"n":5,"trees":[4,12,20],"rows":[1,0,1,0,1],"cols":[0,2,0,1,0],"solution":[3,11,21]},{"n":5,"trees":[9,12,15],"rows":[1,0,1,0,1],"cols":[1,0,0,1,1],"solution":[4,13,20]},{"n":5,"trees":[3,5,13,17],"rows":[2,0,1,0,1],"cols":[1,0,1,0,2],"solution":[0,4,14,22]},{"n":5,"trees":[6,9,17],"rows":[1,1,0,1,0],"cols":[1,1,0,0,1],"solution":[4,5,16]},{"n":6,"trees":[1,10,18,33],"rows":[2,0,0,0,1,1],"cols":[1,0,1,0,2,0],"solution":[2,4,24,34]},{"n":6,"trees":[8,11,33,35],"rows":[0,1,1,0,2,0],"cols":[0,0,0,2,0,2],"solution":[9,17,27,29]},{"n":6,"trees":[5,7,28,30],"rows":[1,1,0,0,2,0],"cols":[2,0,0,0,1,1],"solution":[4,6,24,29]},{"n":6,"trees":[10,18,24,29],"rows":[0,1,1,0,0,2],"cols":[2,0,0,0,0,2],"solution":[11,12,30,35]},{"n":6,"trees":[1,10,12,27],"rows":[1,0,2,0,1,0],"cols":[0,1,1,0,2,0],"solution":[2,13,16,28]},{"n":6,"trees":[6,8,16,17],"rows":[1,2,0,1,0,0],"cols":[1,0,0,1,1,1],"solution":[0,9,11,22]},{"n":6,"trees":[0,8,23,34],"rows":[1,1,0,1,0,1],"cols":[0,1,0,2,1,0],"solution":[1,9,22,33]},{"n":6,"trees":[6,15,17,26],"rows":[0,2,0,2,0,0],"cols":[0,1,1,1,0,1],"solution":[7,9,20,23]},{"n":6,"trees":[3,13,30,32],"rows":[1,0,1,0,1,1],"cols":[1,0,1,1,1,0],"solution":[4,14,24,33]},{"n":6,"trees":[3,17,25,34],"rows":[1,1,0,1,0,1],"cols":[0,1,1,0,0,2],"solution":[2,11,19,35]},{"n":6,"trees":[1,5,9,26,29],"rows":[2,0,1,0,1,1],"cols":[0,0,2,1,2,0],"solution":[2,4,15,28,32]},{"n":6,"trees":[14,17,24,27],"rows":[0,1,0,2,1,0],"cols":[1,0,1,0,1,1],"solution":[11,18,20,28]},{"n":6,"trees":[8,23,26,35],"rows":[1,0,0,1,0,2],"cols":[0,0,2,0,2,0],"solution":[2,22,32,34]},{"n":6,"trees":[5,7,21,31,32],"rows":[1,1,0,1,0,2],"cols":[2,0,1,1,1,0],"solution":[4,6,20,30,33]},{"n":6,"trees":[1,12,24,33],"rows":[1,1,0,0,0,2],"cols":[2,0,1,0,1,0],"solution":[2,6,30,34]},{"n":6,"trees":[8,10,12,28],"rows":[2,0,0,1,1,0],"cols":[1,0,1,1,1,0],"solution":[2,4,18,27]},{"n":6,"trees":[3,6,19,22,28],"rows":[1,0,2,0,2,0],"cols":[1,1,1,1,1,0],"solution":[2,12,16,25,27]},{"n":6,"trees":[6,16,33,35],"rows":[0,1,1,0,2,0],"cols":[0,1,0,1,0,2],"solution":[7,17,27,29]},{"n":6,"trees":[0,10,24,27],"rows":[2,0,0,1,1,0],"cols":[1,1,1,0,1,0],"solution":[1,4,18,26]},{"n":6,"trees":[3,13,14,24,26],"rows":[1,0,1,1,0,2],"cols":[1,1,1,1,1,0],"solution":[4,15,19,30,32]},{"n":7,"trees":[15,25,26,28,48],"rows":[0,1,1,1,0,2,0],"cols":[1,1,0,0,1,0,2],"solution":[8,18,27,35,41]},{"n":7,"trees":[4,20,29,32,47],"rows":[0,2,0,1,1,1,0],"cols":[1,0,0,0,2,1,1],"solution":[11,13,25,28,40]},{"n":7,"trees":[14,32,36,40,47],"rows":[0,0,0,2,0,2,1],"cols":[2,0,0,0,2,0,1],"solution":[21,25,35,41,46]},{"n":7,"trees":[6,9,18,43,46],"rows":[1,2,0,0,0,1,1],"cols":[0,1,1,1,1,0,1],"solution":[2,11,13,36,45]},{"n":7,"trees":[3,14,16,20,45],"rows":[0,1,1,2,0,0,1],"cols":[1,0,2,1,0,1,0],"solution":[10,19,21,23,44]},{"n":7,"trees":[1,6,14,27,37],"rows":[2,0,1,0,1,1,0],"cols":[0,1,1,1,0,1,1],"solution":[2,5,15,34,38]},{"n":7,"trees":[15,19,33,35,37],"rows":[0,0,1,1,0,2,1],"cols":[1,1,0,1,1,1,0],"solution":[18,22,38,40,42]},{"n":7,"trees":[14,26,27,33,36],"rows":[0,1,1,1,0,2,0],"cols":[1,0,1,0,1,1,1],"solution":[7,20,25,37,40]},{"n":7,"trees":[6,25,35,37,44],"rows":[1,0,0,0,3,0,1],"cols":[1,0,1,1,1,1,0],"solution":[5,28,30,32,45]},{"n":7,"trees":[11,20,33,36,43],"rows":[0,1,1,0,2,0,1],"cols":[1,1,0,1,0,1,1],"solution":[10,19,29,34,42]},{"n":7,"trees":[3,8,25,37,43],"rows":[2,0,1,0,1,0,1],"cols":[1,1,1,0,2,0,0],"solution":[1,4,18,30,42]},{"n":7,"trees":[6,7,11,31,39,42],"rows":[1,1,1,0,1,1,1],"cols":[0,2,1,0,1,2,0],"solution":[5,8,18,30,40,43]},{"n":7,"trees":[1,12,21,34,48],"rows":[1,1,0,2,0,0,1],"cols":[1,1,0,0,0,1,2],"solution":[0,13,22,27,47]},{"n":7,"trees":[9,18,41,42,46],"rows":[0,0,2,0,0,0,3],"cols":[0,1,1,1,0,1,1],"solution":[16,19,43,45,48]},{"n":7,"trees":[2,13,27,29,44,46],"rows":[2,0,0,1,1,2,0],"cols":[1,1,1,0,1,1,1],"solution":[1,6,26,28,37,39]},{"n":7,"trees":[9,10,14,24,35],"rows":[0,2,0,2,0,0,1],"cols":[2,1,1,0,1,0,0],"solution":[8,11,21,23,42]},{"n":7,"trees":[2,10,22,34,45],"rows":[1,0,2,0,0,1,1],"cols":[0,2,1,1,0,0,1],"solution":[1,15,17,41,44]},{"n":7,"trees":[3,7,16,30,32,42],"rows":[2,0,1,0,2,0,1],"cols":[1,3,1,0,0,1,0],"solution":[0,2,15,29,33,43]},{"n":7,"trees":[1,12,15,25,45],"rows":[1,1,2,0,0,1,0],"cols":[0,0,2,1,1,0,1],"solution":[2,13,16,18,38]},{"n":7,"trees":[8,16,21,31,46],"rows":[0,1,1,0,2,0,1],"cols":[2,0,0,1,1,1,0],"solution":[7,17,28,32,47]},{"n":8,"trees":[2,6,16,30,48,60],"rows":[2,1,1,0,0,0,1,1],"cols":[2,0,0,1,1,0,1,1],"solution":[3,7,8,22,52,56]},{"n":8,"trees":[7,8,24,28,54,56],"rows":[1,1,0,2,0,0,2,0],"cols":[2,1,0,1,0,0,0,2],"solution":[0,15,25,27,48,55]},{"n":8,"trees":[5,11,12,43,46,62],"rows":[2,0,1,0,1,1,0,1],"cols":[0,0,0,1,2,0,2,1],"solution":[3,6,20,38,44,63]},{"n":8,"trees":[21,26,38,48,52,54],"rows":[0,0,1,0,2,0,1,2],"cols":[1,0,1,0,1,0,1,2],"solution":[22,34,39,55,56,60]},{"n":8,"trees":[2,3,28,30,41,61],"rows":[1,1,0,0,2,1,0,1],"cols":[0,1,1,1,2,0,1,0],"solution":[1,11,36,38,42,60]},{"n":8,"trees":[6,11,26,32,45,53],"rows":[1,1,0,2,1,0,1,0],"cols":[1,0,1,1,1,1,0,1],"solution":[7,10,24,27,37,52]},{"n":8,"trees":[3,14,17,27,39,48],"rows":[1,1,2,0,1,0,0,1],"cols":[2,0,1,1,0,1,1,0],"solution":[2,13,16,19,38,56]},{"n":8,"trees":[16,20,21,39,43,55],"rows":[0,2,0,1,1,1,1,0],"cols":[1,0,1,0,1,1,2,0],"solution":[8,13,28,38,42,54]},{"n":8,"trees":[12,24,29,30,41,52],"rows":[0,1,0,2,1,1,0,1],"cols":[0,1,1,0,1,2,0,1],"solution":[13,25,31,37,42,60]},{"n":8,"trees":[3,13,30,44,57,60],"rows":[1,1,0,0,2,0,0,2],"cols":[1,0,1,1,2,0,1,0],"solution":[2,12,36,38,56,59]},{"n":8,"trees":[11,15,29,32,44,46],"rows":[0,0,3,0,2,1,0,0],"cols":[0,1,0,2,0,1,1,1],"solution":[19,21,23,33,38,43]},{"n":8,"trees":[9,19,25,31,41,45],"rows":[0,1,0,2,2,0,1,0],"cols":[1,1,1,1,0,1,0,1],"solution":[10,24,27,37,39,49]},{"n":8,"trees":[5,10,21,25,44,47,50],"rows":[1,0,2,0,1,1,2,0],"cols":[0,2,1,0,0,1,2,1],"solution":[6,18,22,33,45,49,55]},{"n":8,"trees":[10,30,31,33,46,50],"rows":[0,0,2,1,1,0,2,0],"cols":[0,0,2,1,0,1,1,1],"solution":[18,23,29,34,51,54]},{"n":8,"trees":[5,6,11,30,45,56],"rows":[2,1,0,0,1,0,2,0],"cols":[1,0,0,1,0,2,1,1],"solution":[3,7,13,38,48,53]},{"n":8,"trees":[18,27,30,40,46,58,60],"rows":[0,0,1,1,1,2,0,2],"cols":[0,3,0,1,0,3,0,0],"solution":[17,29,35,41,45,57,61]},{"n":8,"trees":[19,24,35,45,55,56],"rows":[0,1,0,0,3,0,2,0],"cols":[2,0,1,1,0,1,1,0],"solution":[11,32,34,37,48,54]},{"n":8,"trees":[1,31,45,54,57,61],"rows":[1,0,1,0,0,1,1,2],"cols":[2,0,0,0,2,0,0,2],"solution":[0,23,44,55,56,60]},{"n":8,"trees":[3,7,8,30,41,45,59],"rows":[2,1,0,0,2,1,0,1],"cols":[1,1,2,0,1,0,1,1],"solution":[0,2,15,33,38,44,58]},{"n":8,"trees":[4,16,22,32,50,55],"rows":[1,0,2,0,1,0,2,0],"cols":[0,3,0,0,0,2,1,0],"solution":[5,17,21,33,49,54]},{"n":9,"trees":[16,18,31,35,46,67,72],"rows":[0,1,1,2,0,1,0,2,0],"cols":[3,0,0,0,1,1,0,1,1],"solution":[17,22,27,34,45,63,68]},{"n":9,"trees":[9,21,24,40,61,63,64],"rows":[0,0,3,0,0,1,1,1,1],"cols":[2,0,1,0,2,0,1,1,0],"solution":[18,22,25,49,60,65,72]},{"n":9,"trees":[10,11,29,53,62,72,76],"rows":[1,1,0,1,0,1,0,1,2],"cols":[0,2,0,2,0,1,0,1,1],"solution":[1,12,30,52,71,73,77]},{"n":9,"trees":[15,37,40,57,61,63,65],"rows":[0,1,0,2,0,0,2,0,2],"cols":[1,1,1,0,2,0,1,1,0],"solution":[16,28,31,58,60,72,74]},{"n":9,"trees":[21,36,43,59,70,75,76],"rows":[0,1,0,1,1,0,1,1,2],"cols":[1,0,0,2,0,1,1,1,1],"solution":[12,27,44,60,66,77,79]},{"n":9,"trees":[4,7,14,41,53,63,76],"rows":[2,0,1,0,2,0,0,1,1],"cols":[0,1,0,2,0,1,1,0,2],"solution":[3,8,23,42,44,64,75]},{"n":9,"trees":[21,35,40,55,63,68,70],"rows":[0,0,1,1,1,1,1,1,1],"cols":[1,1,1,0,0,2,0,1,1],"solution":[20,34,41,46,59,71,72]},{"n":9,"trees":[15,18,20,24,49,63,78],"rows":[0,3,0,1,1,0,0,2,0],"cols":[1,1,1,0,1,1,2,0,0],"solution":[9,11,14,33,40,64,69]},{"n":9,"trees":[12,13,16,43,45,49,58],"rows":[2,1,0,0,3,0,1,0,0],"cols":[1,0,1,1,2,0,0,1,1],"solution":[4,7,11,36,40,44,57]},{"n":9,"trees":[1,7,27,40,69,71,76],"rows":[2,0,1,0,0,1,2,0,1],"cols":[2,0,0,0,1,1,2,0,1],"solution":[0,6,18,49,60,62,77]},{"n":9,"trees":[3,23,24,52,54,57,68,73],"rows":[0,2,1,0,0,3,0,1,1],"cols":[1,0,1,2,0,1,1,1,1],"solution":[12,14,25,45,48,53,69,74]},{"n":9,"trees":[3,16,48,53,58,74,76,80],"rows":[2,0,0,0,1,1,1,1,2],"cols":[0,0,2,0,1,2,0,2,1],"solution":[4,7,44,47,59,65,77,79]},{"n":9,"trees":[1,5,21,44,50,65,70,74],"rows":[2,0,0,1,1,0,3,0,1],"cols":[0,1,2,1,0,1,1,2,0],"solution":[2,6,30,43,56,59,61,73]},{"n":9,"trees":[4,7,11,22,58,65,68,80],"rows":[2,0,1,1,0,0,1,0,3],"cols":[0,0,2,2,1,1,1,1,0],"solution":[3,6,20,31,57,74,77,79]},{"n":9,"trees":[1,3,17,45,53,57,64,77],"rows":[2,0,1,0,1,1,0,2,1],"cols":[3,0,0,1,1,0,1,1,1],"solution":[0,4,26,36,52,63,66,78]}];
+const CHAPTERS=[
+ {name:"شروع در جنگل",start:1,end:10,desc:"با قوانین بازی آشنا شو"},
+ {name:"جنگل آرام",start:11,end:25,desc:"قدم‌های مطمئن‌تر"},
+ {name:"مسیرهای تازه",start:26,end:45,desc:"منطق را جدی‌تر دنبال کن"},
+ {name:"چالش‌های جنگل",start:46,end:65,desc:"تمرکز و دقت بیشتر"},
+ {name:"استاد منطق",start:66,end:85,desc:"برای ذهن‌های آماده"},
+ {name:"افسانه چادرها",start:86,end:100,desc:"چالش نهایی جنگل"}
+];
+const KEY="chadorha_game_v1";
+const defaults=()=>({seenIntro:false,unlocked:1,completed:[],stars:{},bestTimes:{},boards:{},times:{},mistakes:{},hints:{},lastPlayed:1,currentStreak:0,bestStreak:0,lastCompletedDay:null,activityDays:[],noHintLevels:[],customLevels:[],sound:true,vibration:true,totalHints:0,totalMistakes:0,perfect:0});
+function loadProfile(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");return x&&typeof x==="object"?{...defaults(),...x}:defaults()}catch(e){return defaults()}}
+let profile=loadProfile();if(Array.isArray(profile.customLevels)&&profile.customLevels.length)LEVELS=LEVELS.concat(profile.customLevels);
+let screen=profile.seenIntro?"home":"intro",introStep=0,currentLevel=1,board=[],history=[],redoStack=[],mistakes=0,hintsUsed=0,elapsedMs=0,startedAt=0,paused=false,highlight=new Set(),conflicts=new Set(),toastTimer=null;
+const $=s=>document.querySelector(s);
+const screenEl=$("#screen"),modalRoot=$("#modalRoot");
+const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+const dayKey=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const today=()=>dayKey(new Date());
+const yesterday=()=>{const d=new Date();d.setDate(d.getDate()-1);return dayKey(d)};
+const currentStreak=()=>{if(!profile.lastCompletedDay)return 0;return [today(),yesterday()].includes(profile.lastCompletedDay)?profile.currentStreak:0};
+const totalStars=()=>Object.values(profile.stars).reduce((a,b)=>a+Number(b||0),0);
+const completedCount=()=>profile.completed.length;
+const levelData=id=>LEVELS[id-1];
+const chapterFor=id=>id>100?{name:"مرحله‌های افزوده",start:101,end:LEVELS.length,desc:"مرحله‌های تازه"}:(CHAPTERS.find(c=>id>=c.start&&id<=c.end)||CHAPTERS[0]);
+const getChapters=()=>LEVELS.length>100?[...CHAPTERS,{name:"مرحله‌های افزوده",start:101,end:LEVELS.length,desc:"مرحله‌هایی که خودت اضافه کرده‌ای"}]:CHAPTERS;
+const difficulty=id=>id<=10?"آسان":id<=25?"آسان":id<=45?"متوسط":id<=65?"نسبتاً سخت":id<=85?"سخت":"استادانه";
+const fmtTime=ms=>{const s=Math.floor(ms/1000),m=Math.floor(s/60),r=s%60;return `${fa(String(m).padStart(2,"0"))}:${fa(String(r).padStart(2,"0"))}`};
+function elapsedNow(){return elapsedMs+(startedAt&&!paused?Date.now()-startedAt:0)}
+function save(){try{if(screen==="game"&&currentLevel){profile.times[currentLevel]=elapsedNow();profile.boards[currentLevel]=board.slice();profile.mistakes[currentLevel]=mistakes;profile.hints[currentLevel]=hintsUsed;profile.lastPlayed=currentLevel}localStorage.setItem(KEY,JSON.stringify(profile))}catch(e){}}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2300)}
+function tone(kind="tap"){if(!profile.sound)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const ctx=new C(),o=ctx.createOscillator(),g=ctx.createGain();const notes={tap:440,good:660,bad:190,win:790};o.frequency.value=notes[kind]||440;o.type="sine";g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.07,ctx.currentTime+.015);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+(kind==="win"?.28:.11));o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+(kind==="win"?.3:.13));o.onended=()=>ctx.close()}catch(e){}}
+function vibrate(ms=12){if(profile.vibration&&navigator.vibrate)try{navigator.vibrate(ms)}catch(e){}}
+function setScreen(name){screen=name;render()}
+function openModal(icon,title,body,buttons){modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><div class="modal-icon">${icon}</div><h3>${title}</h3><p>${body}</p><div class="modal-actions">${buttons}</div></div></div>`}
+function closeModal(){modalRoot.innerHTML=""}
+document.addEventListener("change",e=>{if(e.target&&e.target.id==="levelFile"&&e.target.files&&e.target.files[0])importLevels(e.target.files[0])});
+modalRoot.addEventListener("click",e=>{if(e.target.classList.contains("modal-backdrop"))closeModal();const b=e.target.closest("[data-modal]");if(!b)return;const a=b.dataset.modal;if(a==="close")closeModal();else if(a==="next"){closeModal();startLevel(currentLevel+1)}else if(a==="replay"){closeModal();startLevel(currentLevel,true)}else if(a==="home"){closeModal();stopTimer();setScreen("home")}else if(a==="reset-confirm"){closeModal();resetProgress()}else if(a==="pause-resume"){closeModal();resumeTimer()}else if(a==="pause-restart"){closeModal();startLevel(currentLevel,true)}else if(a==="pause-home"){closeModal();stopTimer();setScreen("home")}else if(a==="hint-close"){closeModal();highlight.clear();if(screen==="game")renderGame()}else if(a==="hint-direct"){closeModal();applyDirectHint()}else if(a==="settings-reset"){closeModal();openModal("⚠️","شروع دوباره؟","تمام مراحل، ستاره‌ها و رکوردهای ذخیره‌شده پاک می‌شوند. این کار قابل بازگشت نیست.",'<button class="btn btn-danger" data-modal="reset-confirm">بله، پاک کن</button><button class="btn btn-soft" data-modal="close">انصراف</button>')}});
+function stopTimer(){elapsedMs=elapsedNow();startedAt=0;paused=false;save()}
+function resumeTimer(){if(!startedAt){startedAt=Date.now();paused=false}renderGame()}
+function render(){updateTop();if(screen==="intro")renderIntro();else if(screen==="home")renderHome();else if(screen==="levels")renderLevels();else if(screen==="game")renderGame();else if(screen==="achievements")renderAchievements();else if(screen==="settings")renderSettings();else if(screen==="rules")renderRules();bindActions()}
+function updateTop(){$("#topStreak").textContent=fa(currentStreak());$("#topStars").textContent=fa(totalStars())}
+function renderIntro(){
+ const steps=[
+  ["🌳","درخت‌ها را پیدا کن","هر درخت باید دقیقاً یک چادر در یکی از خانه‌های بالا، پایین، چپ یا راست خودش داشته باشد."],
+  ["⛺","چادرها را هوشمندانه بچین","چادرها نباید حتی از گوشه به هم بچسبند. هر چادر هم باید کنار فقط یک درخت باشد."],
+  ["🔢","اعداد راهنمای تو هستند","عددهای کنار جدول می‌گویند در هر سطر و ستون دقیقاً چند چادر باید قرار بگیرد."]
+ ];
+ const s=steps[introStep];
+ screenEl.innerHTML=`<div class="intro-wrap"><section class="intro-card"><div class="intro-logo">⛺</div><div class="eyebrow">به جنگل چادرها خوش آمدی</div><h1>چادرها</h1><p>یک بازی فکری آرام، زیبا و چالش‌برانگیز. با منطق خودت جنگل را کامل کن.</p><div class="intro-step"><div class="big">${s[0]}</div><h3>${s[1]}</h3><p>${s[2]}</p></div><div class="intro-dots">${steps.map((x,i)=>`<span class="intro-dot ${i===introStep?"active":""}"></span>`).join("")}</div><div class="modal-actions"><button class="btn btn-light" data-action="skip-intro">رد کردن</button><button class="btn btn-primary" data-action="next-intro">${introStep===2?"شروع بازی":"بعدی ←"}</button></div></section></div>`;
+}
+function renderHome(){
+ const pct=Math.round(completedCount()/LEVELS.length*100),continueLevel=profile.lastPlayed&&!profile.completed.includes(profile.lastPlayed)?profile.lastPlayed:Math.min(profile.unlocked,LEVELS.length);
+ const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(dayKey(d))}
+ const active=new Set(profile.activityDays||[]);
+ screenEl.innerHTML=`<section class="hero"><div class="hero-copy"><div class="eyebrow">✨ ۱۰۰ مرحله برای کشف کردن</div><h1>جنگل منتظر <span>هوش توست</span></h1><p>برای هر درخت یک چادر پیدا کن؛ به اعداد سطرها و ستون‌ها دقت کن و یادت باشد چادرها حتی از گوشه هم نباید به هم بچسبند.</p><div class="hero-actions"><button class="btn btn-primary" data-action="continue">ادامه بازی <span>←</span></button><button class="btn btn-light" data-action="levels">انتخاب مرحله</button></div></div><div class="hero-art"><div class="art-orbit"><div class="art-board"><div class="art-cell dark">🌳</div><div class="art-cell">　</div><div class="art-cell">⛺</div><div class="art-cell dark">　</div><div class="art-cell">　</div><div class="art-cell dark">🌳</div><div class="art-cell">　</div><div class="art-cell">⛺</div><div class="art-cell dark">⛺</div><div class="art-cell">　</div><div class="art-cell dark">　</div><div class="art-cell">🌳</div><div class="art-cell">　</div><div class="art-cell dark">　</div><div class="art-cell">⛺</div><div class="art-cell dark">　</div></div><span class="art-spark one">✦</span><span class="art-spark two">✧</span></div></div></section>
+ <div class="home-grid"><section class="panel"><div class="panel-head"><div><div class="panel-title">پیشرفت ماجراجویی</div><div class="panel-sub">هر مرحله یک قدم به استادی نزدیک‌ترت می‌کند</div></div><strong style="font-size:20px;color:var(--forest)">${fa(pct)}٪</strong></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-meta"><span>${fa(completedCount())} از ${fa(LEVELS.length)} مرحله تکمیل‌شده</span><span>${fa(totalStars())} ⭐</span></div><div class="quick-actions"><button class="quick-action" data-action="levels"><span class="quick-icon">🧩</span>مراحل</button><button class="quick-action" data-action="achievements"><span class="quick-icon">🏆</span>دستاوردها</button><button class="quick-action" data-action="rules"><span class="quick-icon">📖</span>قوانین</button></div></section>
+ <section class="panel streak-panel"><div class="streak-flame">🔥</div><div style="flex:1"><div class="panel-title">استریک روزانه</div><div style="display:flex;align-items:baseline;gap:6px;margin-top:5px"><strong class="streak-number">${fa(currentStreak())}</strong><span style="font-size:11px;color:var(--muted)">روز متوالی</span></div><div class="streak-days">${days.map(d=>`<span class="day-dot ${active.has(d)?"active":""}" title="${d}"></span>`).join("")}</div><div class="panel-sub" style="margin-top:7px">بهترین رکورد: ${fa(profile.bestStreak)} روز</div></div></section></div>
+ <div class="panel" style="margin-top:14px"><div class="panel-head"><div><div class="panel-title">آماده‌ای ادامه بدهی؟</div><div class="panel-sub">آخرین مرحله: ${fa(continueLevel)}</div></div><button class="btn btn-soft btn-small" data-action="settings">تنظیمات ⚙️</button></div><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="font-size:12px;color:var(--muted)">⭐ ${fa(totalStars())} ستاره · 🧠 ${fa(profile.totalHints)} راهنمایی استفاده‌شده</div><button class="btn btn-green" data-action="continue">بزن بریم <span>←</span></button></div></div>`;
+}
+function renderLevels(){
+ screenEl.innerHTML=`<div class="page-head"><div><h2>انتخاب مرحله</h2><p class="section-desc" style="margin:4px 0 0">مرحله‌های بازشده را انتخاب کن؛ با حل هر مرحله، مسیر بعدی باز می‌شود.</p></div><button class="icon-button" data-action="home" aria-label="خانه">⌂</button></div>${getChapters().map((c,idx)=>{const done=profile.completed.filter(x=>x>=c.start&&x<=c.end).length;return `<section class="chapter"><div class="chapter-head"><div><div class="chapter-name">${fa(idx+1)}. ${c.name}</div><div class="chapter-meta">${c.desc} · ${fa(c.start)} تا ${fa(c.end)}</div></div><span class="difficulty">${fa(done)}/${fa(c.end-c.start+1)}</span></div><div class="level-grid">${Array.from({length:c.end-c.start+1},(_,i)=>{const id=c.start+i,isDone=profile.completed.includes(id),locked=id>profile.unlocked&&!isDone,isCurrent=id===profile.unlocked&&!isDone;return `<button class="level-tile ${isDone?"done":""} ${isCurrent?"current":""}" data-action="level" data-level="${id}" ${locked?"disabled":""}><span>${fa(id)}</span>${isDone?`<span class="tile-stars">${"★".repeat(profile.stars[id]||1)}</span>`:locked?'<span class="tile-lock">🔒</span>':isCurrent?'<span class="tile-stars">شروع</span>':'<span class="tile-stars">●</span>'}</button>`}).join("")}</div></section>`}).join("")}`;
+}
+function orth(i,n){const r=Math.floor(i/n),c=i%n,out=[];if(r>0)out.push(i-n);if(r<n-1)out.push(i+n);if(c>0)out.push(i-1);if(c<n-1)out.push(i+1);return out}
+function kingNear(a,b,n){return Math.abs(Math.floor(a/n)-Math.floor(b/n))<=1&&Math.abs(a%n-b%n)<=1}
+function countSolutions(lv,limit=2){
+ const n=lv.n,trees=lv.trees,treeSet=new Set(trees),adj=trees.map(t=>orth(t,n));
+ const cellTrees=new Map();adj.forEach((arr,ti)=>arr.forEach(c=>{if(!cellTrees.has(c))cellTrees.set(c,[]);cellTrees.get(c).push(ti)}));
+ const opts=adj.map(arr=>arr.filter(c=>!treeSet.has(c)&&(cellTrees.get(c)||[]).length===1));
+ if(opts.some(x=>!x.length))return 0;
+ const order=opts.map((_,i)=>i).sort((a,b)=>opts[a].length-opts[b].length),row=lv.rows.slice(),col=lv.cols.slice(),chosen=[];let count=0;
+ function rec(k){if(count>=limit)return;if(k===order.length){if(row.every(x=>x===0)&&col.every(x=>x===0))count++;return}
+  const ti=order[k];for(const cell of opts[ti]){const r=Math.floor(cell/n),c=cell%n;if(row[r]<=0||col[c]<=0||chosen.some(x=>kingNear(x,cell,n)))continue;row[r]--;col[c]--;chosen.push(cell);
+   let ok=true;for(let rr=0;rr<n&&ok;rr++){let possible=0;for(let z=k+1;z<order.length;z++)if(opts[order[z]].some(x=>Math.floor(x/n)===rr)){possible++}if(row[rr]>possible)ok=false}
+   for(let cc=0;cc<n&&ok;cc++){let possible=0;for(let z=k+1;z<order.length;z++)if(opts[order[z]].some(x=>x%n===cc)){possible++}if(col[cc]>possible)ok=false}
+   if(ok)rec(k+1);chosen.pop();row[r]++;col[c]++;if(count>=limit)return;
+  }
+ }
+ rec(0);return count;
+}
+function validateLevel(lv){
+ const n=lv.n,trees=new Set(lv.trees),tents=new Set(lv.solution);
+ if(trees.size!==lv.trees.length||tents.size!==lv.solution.length||trees.size!==tents.size)return false;
+ if(lv.rows.length!==n||lv.cols.length!==n||lv.rows.reduce((a,b)=>a+b,0)!==tents.size||lv.cols.reduce((a,b)=>a+b,0)!==tents.size)return false;
+ const rr=Array(n).fill(0),cc=Array(n).fill(0);
+ for(const t of trees){if(t<0||t>=n*n||tents.has(t))return false;const near=orth(t,n).filter(x=>tents.has(x));if(near.length!==1)return false}
+ for(const t of tents){if(t<0||t>=n*n||trees.has(t))return false;const near=orth(t,n).filter(x=>trees.has(x));if(near.length!==1)return false;const r=Math.floor(t/n),c=t%n;rr[r]++;cc[c]++;for(const other of tents)if(other!==t&&kingNear(t,other,n))return false}
+ if(rr.some((x,i)=>x!==lv.rows[i])||cc.some((x,i)=>x!==lv.cols[i]))return false;
+ return countSolutions(lv,2)===1;
+}
+function startLevel(id,forceReset=false){
+ if(id<1||id>LEVELS.length)return;if(id>profile.unlocked&&!profile.completed.includes(id)){toast("این مرحله هنوز قفل است.");return}
+ const lv=levelData(id);if(!validateLevel(lv)){toast("این مرحله نیاز به بررسی دارد؛ مرحله دیگری را انتخاب کن.");return}
+ stopTimer();currentLevel=id;
+ const saved=profile.boards[id];
+ const isDone=profile.completed.includes(id);
+ board=(!forceReset&&!isDone&&Array.isArray(saved)&&saved.length===lv.n*lv.n)?saved.slice():Array(lv.n*lv.n).fill(0);
+ mistakes=forceReset||isDone?0:Number(profile.mistakes[id]||0);
+ hintsUsed=forceReset||isDone?0:Number(profile.hints[id]||0);
+ if(forceReset||isDone){profile.boards[id]=board.slice();profile.mistakes[id]=0;profile.hints[id]=0;profile.times[id]=0}
+ history=[];redoStack=[];highlight.clear();conflicts.clear();
+ elapsedMs=forceReset||isDone?0:Number(profile.times[id]||0);startedAt=Date.now();paused=false;screen="game";save();render();
+}
+function renderGame(){
+ const lv=levelData(currentLevel),n=lv.n,treeSet=new Set(lv.trees),tentCount=board.filter(x=>x===1).length;
+ const rows=Array(n).fill(0),cols=Array(n).fill(0);board.forEach((v,i)=>{if(v===1){rows[Math.floor(i/n)]++;cols[i%n]++}});
+ const colClues=lv.cols.map((target,i)=>`<div class="col-clue ${cols[i]>target?"over":cols[i]===target?"done":""} ${[...highlight].some(x=>x%n===i)?"focus":""}">${fa(cols[i])}/${fa(target)}</div>`).join("");
+ const rowClues=lv.rows.map((target,i)=>`<div class="row-clue ${rows[i]>target?"over":rows[i]===target?"done":""} ${[...highlight].some(x=>Math.floor(x/n)===i)?"focus":""}">${fa(rows[i])}/${fa(target)}</div>`).join("");
+ const cells=board.map((v,i)=>{let cls="empty",icon="";if(treeSet.has(i)){cls="tree";icon="🌳"}else if(v===1){cls="tent";icon="⛺"}else if(v===2){cls="grass";icon="·"}if(conflicts.has(i))cls+=" conflict";if(highlight.has(i))cls+=" hint";return `<button class="cell ${cls}" data-action="cell" data-index="${i}" aria-label="${treeSet.has(i)?"درخت":v===1?"چادر":v===2?"چمن":"خانه خالی"}">${icon}</button>`}).join("");
+ const chapter=chapterFor(currentLevel);
+ screenEl.innerHTML=`<div class="game-top"><div class="game-title"><button class="icon-button" data-action="back" aria-label="بازگشت">→</button><div><h2>مرحله ${fa(currentLevel)}</h2><p>${chapter.name} · ${fa(n)}×${fa(n)} خانه</p></div></div><div style="display:flex;align-items:center;gap:7px"><span class="difficulty">${difficulty(currentLevel)}</span><button class="icon-button" data-action="pause" aria-label="مکث">Ⅱ</button></div></div>
+ <div class="game-stats"><div class="game-stat"><span class="stat-icon">⏱️</span><strong id="timer">${fmtTime(elapsedNow())}</strong><span>زمان</span></div><div class="game-stat"><span class="stat-icon">❌</span><strong>${fa(mistakes)}</strong><span>خطا</span></div><div class="game-stat"><span class="stat-icon">💡</span><strong>${fa(3-hintsUsed)}/۳</strong><span>راهنما</span></div></div>
+ <section class="board-card"><p class="board-instruction">خانه‌ها را لمس کن: چادر ← چمن ← خالی</p><div class="board-frame" style="--n:${n}"><div class="top-clues"><div></div>${colClues}</div><div class="board-body"><div class="row-clues">${rowClues}</div><div class="puzzle-grid" style="--n:${n}">${cells}</div></div></div><div class="board-legend"><span class="legend-item"><span class="legend-icon">🌳</span>درخت</span><span class="legend-item"><span class="legend-icon">⛺</span>چادر</span><span class="legend-item"><span class="legend-icon">·</span>خانه خالی</span></div></section>
+ <div class="game-controls"><button class="control-btn" data-action="undo" ${history.length?"":"disabled"}><span class="control-icon">↶</span>بازگشت</button><button class="control-btn" data-action="redo" ${redoStack.length?"":"disabled"}><span class="control-icon">↷</span>جلو</button><button class="control-btn" data-action="hint" ${hintsUsed>=3?"disabled":""}><span class="control-icon">💡</span>راهنما</button><button class="control-btn" data-action="reset"><span class="control-icon">⟲</span>شروع مجدد</button><button class="control-btn primary" data-action="check"><span class="control-icon">✓</span>بررسی</button></div>
+ <div class="game-footer"><span>چادرهای قرارگرفته: ${fa(tentCount)} از ${fa(lv.trees.length)}</span><span>هر درخت، یک چادر</span></div>
+ <div class="message-strip" id="gameMessage">${conflicts.size?"خانه‌های مشخص‌شده را بررسی کن.":"به اعداد سطر و ستون دقت کن؛ برای بررسی پاسخ، دکمه بررسی را بزن."}</div>`;
+}
+function bindActions(){
+ screenEl.onclick=e=>{const b=e.target.closest("[data-action]");if(!b)return;const a=b.dataset.action;
+ switch(a){
+  case "skip-intro":profile.seenIntro=true;save();setScreen("home");break;
+  case "next-intro":if(introStep<2){introStep++;renderIntro();bindActions()}else{profile.seenIntro=true;save();setScreen("home")}break;
+  case "continue":{const id=profile.lastPlayed&&!profile.completed.includes(profile.lastPlayed)?profile.lastPlayed:Math.min(profile.unlocked,LEVELS.length);startLevel(id);break}
+  case "levels":setScreen("levels");break;
+  case "home":stopTimer();setScreen("home");break;
+  case "achievements":setScreen("achievements");break;
+  case "settings":setScreen("settings");break;
+  case "rules":setScreen("rules");break;
+  case "level":startLevel(Number(b.dataset.level));break;
+  case "cell":changeCell(Number(b.dataset.index));break;
+  case "back":stopTimer();setScreen("home");break;
+  case "pause":pauseGame();break;
+  case "undo":undo();break;
+  case "redo":redo();break;
+  case "hint":showHintMenu();break;
+  case "reset":confirmResetLevel();break;
+  case "check":checkPuzzle();break;
+  case "sound-toggle":profile.sound=!profile.sound;save();renderSettings();break;
+  case "vibe-toggle":profile.vibration=!profile.vibration;save();renderSettings();break;
+  case "replay-tutorial":profile.seenIntro=false;introStep=0;setScreen("intro");break;
+  case "reset-profile":openModal("⚠️","پاک کردن اطلاعات؟","تمام پیشرفت، مرحله‌های بازشده و رکوردها پاک می‌شوند.",'<button class="btn btn-danger" data-modal="reset-confirm">پاک کردن همه</button><button class="btn btn-soft" data-modal="close">انصراف</button>');break;
+  case "export-levels":exportLevels();break;
+  case "import-levels":$("#levelFile").click();break;
+ }
+ };
+}
+function changeCell(i){
+ const lv=levelData(currentLevel);if(lv.trees.includes(i))return;
+ history.push(board.slice());if(history.length>100)history.shift();redoStack=[];board[i]=(board[i]+1)%3;conflicts.clear();save();tone("tap");vibrate();renderGame();bindActions();
+}
+function undo(){if(!history.length)return;redoStack.push(board.slice());board=history.pop();conflicts.clear();save();renderGame();bindActions();tone("tap")}
+function redo(){if(!redoStack.length)return;history.push(board.slice());board=redoStack.pop();conflicts.clear();save();renderGame();bindActions();tone("tap")}
+function pauseGame(){elapsedMs=elapsedNow();startedAt=0;paused=true;save();openModal("⏸️","بازی متوقف شد","هر وقت آماده بودی می‌توانی ادامه بدهی.",'<button class="btn btn-green" data-modal="pause-resume">ادامه بازی</button><button class="btn btn-soft" data-modal="pause-restart">شروع دوباره</button><button class="btn btn-plain" data-modal="pause-home">بازگشت به خانه</button>')}
+function confirmResetLevel(){openModal("🔄","از نو شروع کنیم؟","چیدمان فعلی این مرحله پاک می‌شود و زمان و خطاها از ابتدا محاسبه خواهند شد.",'<button class="btn btn-danger" data-modal="reset-level-confirm">بله، از نو</button><button class="btn btn-soft" data-modal="close">ادامه حل</button>')}
+function resetLevel(){board=Array(levelData(currentLevel).n**2).fill(0);history=[];redoStack=[];mistakes=0;hintsUsed=0;elapsedMs=0;startedAt=Date.now();paused=false;conflicts.clear();highlight.clear();profile.boards[currentLevel]=board.slice();profile.mistakes[currentLevel]=0;profile.hints[currentLevel]=0;profile.times[currentLevel]=0;save();renderGame();bindActions()}
+function checkPuzzle(){
+ const lv=levelData(currentLevel),n=lv.n,trees=new Set(lv.trees),tents=[];board.forEach((v,i)=>{if(v===1)tents.push(i)});
+ const row=Array(n).fill(0),col=Array(n).fill(0),bad=new Set(),issues=[];
+ tents.forEach(t=>{row[Math.floor(t/n)]++;col[t%n]++;const near=orth(t,n).filter(x=>trees.has(x));if(near.length!==1){bad.add(t);issues.push("هر چادر باید کنار دقیقاً یک درخت باشد.")}for(const other of tents)if(other!==t&&kingNear(t,other,n)){bad.add(t);bad.add(other);issues.push("چادرها نباید از ضلع یا گوشه به هم بچسبند.")}});
+ for(const t of trees){const near=orth(t,n).filter(x=>board[x]===1);if(near.length!==1){bad.add(t);near.forEach(x=>bad.add(x));issues.push("هر درخت باید دقیقاً یک چادر داشته باشد.")}}
+ for(let r=0;r<n;r++)if(row[r]!==lv.rows[r]){for(let c=0;c<n;c++)if(board[r*n+c]===1)bad.add(r*n+c);issues.push(`تعداد چادرهای سطر ${fa(r+1)} درست نیست.`)}
+ for(let c=0;c<n;c++)if(col[c]!==lv.cols[c]){for(let r=0;r<n;r++)if(board[r*n+c]===1)bad.add(r*n+c);issues.push(`تعداد چادرهای ستون ${fa(c+1)} درست نیست.`)}
+ if(tents.length!==trees.size)issues.push("تعداد چادرها باید با تعداد درخت‌ها برابر باشد.");
+ if(!issues.length){completeLevel();return}
+ mistakes++;profile.totalMistakes++;profile.mistakes[currentLevel]=mistakes;conflicts=bad;save();tone("bad");vibrate(45);renderGame();bindActions();const msg=[...new Set(issues)][0];$("#gameMessage").textContent="هنوز کامل نشده؛ "+msg;toast("هنوز چند نکته باقی مانده. با دقت بررسی کن.");
+}
+function showHintMenu(){
+ if(hintsUsed>=3){toast("راهنماهای این مرحله تمام شده‌اند.");return}
+ openModal("💡","چه کمکی لازم داری؟","راهنمایی‌ها به‌ترتیب از ملایم تا مستقیم هستند. در هر مرحله حداکثر سه راهنما داری.",`<button class="btn btn-soft" data-modal="hint-gentle">🌱 راهنمای ملایم</button><button class="btn btn-soft" data-modal="hint-guided">🎯 راهنمای هدفمند</button><button class="btn btn-green" data-modal="hint-direct">⛺ نشان دادن یک چادر</button><button class="btn btn-plain" data-modal="close">فعلاً نه</button>`);
+}
+modalRoot.addEventListener("click",e=>{const b=e.target.closest("[data-modal]");if(!b)return;const a=b.dataset.modal;if(a==="hint-gentle"){closeModal();applyHint("gentle")}else if(a==="hint-guided"){closeModal();applyHint("guided")}else if(a==="reset-level-confirm"){closeModal();resetLevel()}});
+function applyHint(kind){
+ if(hintsUsed>=3)return;const lv=levelData(currentLevel),n=lv.n;hintsUsed++;profile.totalHints++;profile.hints[currentLevel]=hintsUsed;
+ highlight.clear();
+ let msg="",icon="💡";
+ if(kind==="gentle"){
+  const tree=lv.trees.find(t=>orth(t,n).filter(x=>board[x]===1).length!==1)||lv.trees[0];
+  highlight.add(tree);orth(tree,n).forEach(x=>{if(!lv.trees.includes(x))highlight.add(x)});
+  msg="به خانه‌های اطراف درخت مشخص‌شده نگاه کن. چادر فقط می‌تواند بالا، پایین، چپ یا راست درخت قرار بگیرد؛ نه در گوشه.";
+ }else if(kind==="guided"){
+  let targetRow=-1;for(let r=0;r<n;r++){const missing=lv.solution.filter(x=>Math.floor(x/n)===r&&board[x]!==1);if(missing.length){targetRow=r;break}}
+  if(targetRow>=0){for(let c=0;c<n;c++)highlight.add(targetRow*n+c);msg=`در سطر ${fa(targetRow+1)} هنوز ${fa(lv.rows[targetRow]-board.slice(targetRow*n,(targetRow+1)*n).filter(x=>x===1).length)} چادر لازم است. خانه‌های مجاور درخت‌ها را با دقت بررسی کن.`}
+  else{const targetCol=lv.solution.find(x=>board[x]!==1)%n;for(let r=0;r<n;r++)highlight.add(r*n+targetCol);msg=`به ستون ${fa(targetCol+1)} توجه کن؛ عدد بالای ستون تعداد دقیق چادرها را نشان می‌دهد.`}
+ }else{hintsUsed--;profile.totalHints--;profile.hints[currentLevel]=hintsUsed;applyDirectHint();return}
+ save();renderGame();bindActions();openModal(icon,"یک سرنخ برای تو",msg,'<button class="btn btn-green" data-modal="hint-close">متوجه شدم</button>');
+}
+function applyDirectHint(){
+ if(hintsUsed>=3)return;const lv=levelData(currentLevel);const cell=lv.solution.find(x=>board[x]!==1);
+ if(cell===undefined){toast("تقریباً همه چادرها را درست چیده‌ای؛ بررسی را بزن.");return}
+ history.push(board.slice());redoStack=[];board[cell]=1;hintsUsed++;profile.totalHints++;profile.hints[currentLevel]=hintsUsed;highlight=new Set([cell]);conflicts.clear();save();renderGame();bindActions();openModal("⛺","یک چادر درست پیدا شد",`خانه مشخص‌شده یکی از جایگاه‌های درست چادر است. حالا بقیه جدول را با منطق خودت کامل کن.`,'<button class="btn btn-green" data-modal="hint-close">ادامه می‌دهم</button>');tone("good");vibrate(18);
+}
+function completeLevel(){
+ stopTimer();const id=currentLevel,elapsed=elapsedNow(),score=hintsUsed===0&&mistakes===0?3:(hintsUsed<=1&&mistakes<=1?2:1),wasDone=profile.completed.includes(id);
+ if(!wasDone){profile.completed.push(id);profile.completed.sort((a,b)=>a-b)}
+ profile.stars[id]=Math.max(profile.stars[id]||0,score);
+ profile.bestTimes[id]=profile.bestTimes[id]?Math.min(profile.bestTimes[id],elapsed):elapsed;
+ profile.unlocked=Math.max(profile.unlocked,Math.min(LEVELS.length,id+1));
+ if(score===3&&!wasDone)profile.perfect++;
+ const t=today();if(profile.lastCompletedDay!==t){profile.currentStreak=profile.lastCompletedDay===yesterday()?profile.currentStreak+1:1;profile.bestStreak=Math.max(profile.bestStreak,profile.currentStreak);profile.lastCompletedDay=t;profile.activityDays=[...new Set([...(profile.activityDays||[]),t])].slice(-120)}
+ if(hintsUsed===0&&!profile.noHintLevels.includes(id))profile.noHintLevels.push(id);profile.boards[id]=Array(levelData(id).n**2).fill(0);profile.times[id]=0;profile.mistakes[id]=0;profile.hints[id]=0;save();tone("win");vibrate([25,35,25]);
+ const streak=currentStreak(),milestone=[3,7,14,30,100].includes(streak);
+ const next=id<LEVELS.length;
+ const title=id===100?"تو افسانه چادرهایی!":"آفرین! مرحله کامل شد";
+ const body=`مرحله ${fa(id)} را در ${fmtTime(elapsed)} حل کردی. ${wasDone?"این بار هم یک پیروزی دیگر ثبت شد.":"مرحله بعدی برایت باز شد."}${milestone?` استریک ${fa(streak)} روزه‌ات هم ثبت شد!`:""}`;
+ const starsHtml=`<div class="star-row">${"★".repeat(score)}<span style="color:#e9e8df">${"★".repeat(3-score)}</span></div>`;
+ openModal("🏆",title,body+starsHtml,`${next?'<button class="btn btn-green" data-modal="next">مرحله بعدی ←</button>':'<button class="btn btn-green" data-modal="home">بازگشت به خانه</button>'}<button class="btn btn-soft" data-modal="replay">تکرار مرحله</button>`);
+ updateTop();
+}
+function resetProgress(){profile=defaults();board=[];history=[];redoStack=[];currentLevel=1;elapsedMs=0;startedAt=0;try{localStorage.setItem(KEY,JSON.stringify(profile))}catch(e){}closeModal();introStep=0;setScreen("intro")}
+function renderAchievements(){
+ const items=[
+  ["🌱","اولین قدم","اولین مرحله را کامل کن",completedCount()>=1],
+  ["🧠","ذهن کنجکاو","۱۰ مرحله را کامل کن",completedCount()>=10],
+  ["🏅","نیمه راه","۵۰ مرحله را کامل کن",completedCount()>=50],
+  ["👑","افسانه چادرها","هر ۱۰۰ مرحله را کامل کن",completedCount()>=100],
+  ["🔥","هفته طلایی","۷ روز متوالی بازی کن",profile.bestStreak>=7],
+  ["💎","بی‌نقص","یک مرحله را با سه ستاره تمام کن",Object.values(profile.stars).some(x=>x===3)],
+  ["🕊️","بدون راهنما","یک مرحله را بدون راهنمایی حل کن",(profile.noHintLevels||[]).length>0],
+  ["🌳","جنگل‌بان","۳۰ مرحله را کامل کن",completedCount()>=30]
+ ];
+ screenEl.innerHTML=`<div class="page-head"><div><h2>دستاوردها</h2><p class="section-desc" style="margin:4px 0 0">هر قدم کوچک، یک افتخار تازه است.</p></div><button class="icon-button" data-action="home">⌂</button></div><div class="panel" style="margin-bottom:14px"><div class="panel-head"><div><div class="panel-title">مجموع ستاره‌ها</div><div class="panel-sub">از ${fa(completedCount())} مرحله تکمیل‌شده</div></div><strong style="font-size:24px;color:var(--forest)">⭐ ${fa(totalStars())}</strong></div><div class="progress-track"><div class="progress-fill" style="width:${completedCount()}%"></div></div></div><div class="achievement-grid">${items.map(x=>`<div class="achievement ${x[3]?"":"locked"}"><div class="achievement-icon">${x[0]}</div><div><strong>${x[1]}</strong><small>${x[2]}${x[3]?" · دریافت شد":""}</small></div></div>`).join("")}</div>`;
+}
+
+function exportLevels(){
+ const payload={format:"chadorha-levels-v1",levels:LEVELS};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="chadorha-levels.json";a.click();URL.revokeObjectURL(url);toast("فایل مرحله‌های افزوده آماده شد.");
+}
+function importLevels(file){
+ const reader=new FileReader();reader.onload=()=>{try{
+  const parsed=JSON.parse(String(reader.result||""));const incoming=Array.isArray(parsed)?parsed:parsed.levels;
+  if(!Array.isArray(incoming)||!incoming.length)throw Error("فرمت فایل معتبر نیست.");
+  const accepted=[],signature=x=>`${x.n}|${x.trees.slice().sort((a,b)=>a-b).join(",")}|${x.rows.join(",")}|${x.cols.join(",")}`,seen=new Set(LEVELS.map(signature));
+  for(const lv of incoming){if(!lv||!Number.isInteger(lv.n)||lv.n<4||lv.n>15||!Array.isArray(lv.trees)||!Array.isArray(lv.rows)||!Array.isArray(lv.cols)||!Array.isArray(lv.solution))continue;if([...lv.trees,...lv.rows,...lv.cols,...lv.solution].some(x=>!Number.isInteger(x)))continue;const sig=signature(lv);if(seen.has(sig))continue;if(validateLevel(lv)){accepted.push({n:lv.n,trees:lv.trees,rows:lv.rows,cols:lv.cols,solution:lv.solution});seen.add(sig)}}
+  if(!accepted.length)throw Error("هیچ مرحله معتبر و دارای جواب یکتا پیدا نشد.");
+  LEVELS=LEVELS.concat(accepted);profile.customLevels=[...(profile.customLevels||[]),...accepted];if(profile.completed.includes(100))profile.unlocked=Math.max(profile.unlocked,101);save();renderSettings();toast(`${fa(accepted.length)} مرحله جدید اضافه شد.`);
+ }catch(err){toast(err.message||"فایل قابل خواندن نیست.")}};reader.readAsText(file);
+}
+function renderSettings(){
+ screenEl.innerHTML=`<div class="page-head"><div><h2>تنظیمات</h2><p class="section-desc" style="margin:4px 0 0">بازی را مطابق سلیقه‌ات تنظیم کن.</p></div><button class="icon-button" data-action="home">⌂</button></div><div class="settings-list"><div class="setting-row"><div><strong>افکت‌های صوتی</strong><small>صدای لمس، راهنمایی و پیروزی</small></div><button class="toggle ${profile.sound?"on":""}" data-action="sound-toggle" aria-label="تغییر صدا"></button></div><div class="setting-row"><div><strong>لرزش هنگام تعامل</strong><small>در دستگاه‌های پشتیبانی‌شده</small></div><button class="toggle ${profile.vibration?"on":""}" data-action="vibe-toggle" aria-label="تغییر لرزش"></button></div><div class="setting-row"><div><strong>آموزش آغاز بازی</strong><small>قوانین را دوباره مرور کن</small></div><button class="btn btn-soft btn-small" data-action="replay-tutorial">نمایش آموزش</button></div><div class="setting-row"><div><strong>افزودن مرحله‌های جدید</strong><small>ورود یا خروجی گرفتن از مرحله‌ها با فایل JSON</small></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-soft btn-small" data-action="export-levels">خروجی JSON</button><button class="btn btn-green btn-small" data-action="import-levels">افزودن</button><input id="levelFile" type="file" accept=".json,application/json" style="display:none"></div></div><div class="setting-row"><div><strong>پاک کردن تمام پیشرفت</strong><small>حذف مرحله‌ها، ستاره‌ها و رکوردها</small></div><button class="btn btn-danger btn-small" data-action="reset-profile">پاک کردن</button></div></div><div class="panel" style="margin-top:14px"><div class="panel-title">درباره چادرها</div><p class="section-desc" style="margin:6px 0 0">یک بازی منطقی مستقل با ۱۰۰ مرحله اولیه. پیشرفت در همین مرورگر ذخیره می‌شود. برای افزودن مرحله، فایل JSON با فیلدهای n، trees، rows، cols و solution وارد کن؛ خانه‌ها با شماره‌گذاری صفرمبنا مشخص می‌شوند. هر مرحله پیش از اضافه‌شدن از نظر قوانین و یکتایی جواب بررسی می‌شود.</p></div>`;
+}
+function renderRules(){
+ const rules=[["🌳","هر درخت، یک چادر","برای هر درخت باید دقیقاً یک چادر در یکی از خانه‌های بالا، پایین، چپ یا راست آن قرار بگیرد."],["⛺","چادرها کنار هم نمی‌آیند","چادرها نباید از ضلع یا حتی گوشه به یکدیگر بچسبند."],["🔗","هر چادر فقط یک درخت","هر چادر باید کنار دقیقاً یک درخت باشد؛ نه صفر و نه دو درخت."],["🔢","اعداد سطر و ستون","اعداد اطراف جدول تعداد دقیق چادرهای هر سطر و ستون را مشخص می‌کنند."],["👆","روش بازی","با هر لمس، خانه بین چادر، چمن و خالی جابه‌جا می‌شود. درخت‌ها ثابت هستند."]];
+ screenEl.innerHTML=`<div class="page-head"><div><h2>قوانین بازی</h2><p class="section-desc" style="margin:4px 0 0">این پنج قانون را به خاطر بسپار.</p></div><button class="icon-button" data-action="home">⌂</button></div><div class="rules-list">${rules.map(r=>`<div class="rule"><div class="rule-icon">${r[0]}</div><div><strong>${r[1]}</strong><span>${r[2]}</span></div></div>`).join("")}</div><div style="text-align:center;margin-top:18px"><button class="btn btn-green" data-action="continue">شروع بازی ←</button></div>`;
+}
+let lastAutoSave=Date.now();setInterval(()=>{if(screen==="game"&&!paused){const el=$("#timer");if(el)el.textContent=fmtTime(elapsedNow());if(Date.now()-lastAutoSave>10000){save();lastAutoSave=Date.now()}}},1000);
+render();
+})();
+</script>
+
+<script>
+(()=>{
+  let installPrompt=null;
+  const installButton=document.getElementById("installApp");
+  const isStandalone=window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true;
+  if(isStandalone && installButton){installButton.style.display="none";}
+  window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;});
+  if(installButton){
+    installButton.addEventListener("click",async()=>{
+      if(isStandalone){return;}
+      if(installPrompt){
+        installPrompt.prompt();
+        try{await installPrompt.userChoice;}catch(e){}
+        installPrompt=null;
+      }else{
+        const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+        const message=ios?"برای نصب، دکمه اشتراک‌گذاری مرورگر را بزن و گزینه Add to Home Screen را انتخاب کن.":"برای نصب، از منوی مرورگر گزینه Install app یا Add to Home Screen را انتخاب کن.";
+        const toast=document.getElementById("toast");
+        if(toast){toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),4200);}
+      }
+    });
+  }
+  window.addEventListener("appinstalled",()=>{if(installButton)installButton.style.display="none";installPrompt=null;});
+  if("serviceWorker" in navigator && location.protocol!=="file:"){
+    window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+  }
+})();
+</script>
+</body>
+</html>
